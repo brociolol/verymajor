@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Very Major Films</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FAFFFD;
+      --ink:   #342E37;
+      --lime:  #9FD356;
+      --blue:  #3C91E6;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Barlow', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Subtle grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.028'/%3E%3C/svg%3E");
+      background-size: 220px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* PAGE LAYOUT */
+    .page {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    /* HEADER */
+    header {
+      padding: 2.6rem 3.2rem 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 500;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .header-year {
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.35;
+    }
+
+    /* CENTER STAGE */
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5rem;
+      padding: 0 2rem 4rem;
+    }
+
+    /* TITLE */
+    .title-block {
+      text-align: center;
+      opacity: 0;
+      animation: riseIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    }
+
+    .title-block h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(3.8rem, 9vw, 7.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .title-block h1 strong {
+      font-style: normal;
+      font-weight: 700;
+      display: block;
+    }
+
+    .title-rule {
+      width: 32px;
+      height: 1.5px;
+      background: var(--lime);
+      margin: 2rem auto 1.8rem;
+    }
+
+    .title-sub {
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+    }
+
+    /* ROTATING CONTACT */
+    .contact-zone {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      opacity: 0;
+      animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    .orbit-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: spin 12s linear infinite;
+    }
+
+    .orbit-svg text {
+      font-family: 'Barlow', sans-serif;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      fill: var(--ink);
+      opacity: 0.55;
+    }
+
+    .contact-btn {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 1.5px solid var(--ink);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .contact-btn:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .contact-btn:hover .btn-arrow {
+      color: var(--cream);
+      transform: translate(2px, -2px);
+    }
+
+    .btn-arrow {
+      font-size: 1.3rem;
+      color: var(--ink);
+      line-height: 1;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Pause orbit on hover */
+    .contact-zone:hover .orbit-svg {
+      animation-play-state: paused;
+    }
+
+    /* ANIMATIONS */
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 576px) {
+      html, body { overflow: auto; }
+      .page { height: auto; min-height: 100vh; }
+      header { padding: 1.8rem 1.6rem; }
+      .stage { padding: 3rem 1.6rem 5rem; gap: 4rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <span class="wordmark">Very Major Films</span>
+    <span class="header-year">Est. 2025</span>
+  </header>
+
+  <main class="stage">
+
+    <div class="title-block">
+      <h1>
+        <strong>Very Major</strong>
+        Films
+      </h1>
+      <div class="title-rule"></div>
+      <p class="title-sub">Independent Film Company<br>Philadelphia, PA</p>
+
+    </div>
+
+    <div class="contact-zone">
+      <svg class="orbit-svg" viewBox="0 0 170 170" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="ring" d="M 85,85 m -56,0 a 56,56 0 1,1 112,0 a 56,56 0 1,1 -112,0" />
+        </defs>
+        <text>
+          <textPath href="#ring" startOffset="0%">
+            LET'S CHAT — LET'S CHAT — LET'S CHAT —&nbsp;
+          </textPath>
+        </text>
+      </svg>
+      <a href="mailto:hello@verymajorfilms.com" class="contact-btn" aria-label="Get in touch">
+        <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
